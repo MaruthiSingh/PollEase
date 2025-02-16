@@ -30,7 +30,7 @@ PollEase is a web application that allows users to create polls and vote on them
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/your-username/poll-ease.git
+git clone https://github.com/MaruthiSingh/poll-ease.git
 cd poll-ease
 ```
 
