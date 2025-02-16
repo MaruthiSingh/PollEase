@@ -1,6 +1,8 @@
 # PollEase - A Simple Polling System
 
 PollEase is a web application that allows users to create polls and vote on them. It consists of a **FastAPI** backend and a **React** frontend.
+## https://pollease-beige.vercel.app/ --> Frontend
+## https://pollease.onrender.com/ --> Backend 
 
 ## Features
 - Create polls with multiple options
@@ -200,6 +202,6 @@ export default App;
 - Open a pull request
 
 ## 💬 Support
-For any questions, reach out to **your-email@example.com** or create an issue in GitHub.
+For any questions, reach out to **singhkarthik26@gmail.com** or create an issue in GitHub.
 
 Happy Coding! 🚀
