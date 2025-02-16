@@ -10,20 +10,6 @@ engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-INSTALLED_APPS = [
-    'corsheaders',
-    ...
-]
-
-MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
-    ...
-]
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Frontend React app
-]
-
-
 app = FastAPI()
 
 app.add_middleware(
@@ -92,6 +78,23 @@ def get_results(poll_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Poll not found")
     options = db.query(Option).filter(Option.poll_id == poll_id).all()
     return {"question": poll.question, "options": [{"id": opt.id, "text": opt.text, "votes": opt.votes} for opt in options]}
+
+# ✅ GET endpoint to fetch all polls
+@app.get("/polls/")
+def get_all_polls(db: Session = Depends(get_db)):
+    polls = db.query(Poll).all()
+    if not polls:
+        raise HTTPException(status_code=404, detail="No polls found")
+    return [{"id": poll.id, "question": poll.question} for poll in polls]
+
+# ✅ GET endpoint to fetch a specific poll (without results)
+@app.get("/polls/{poll_id}/")
+def get_poll(poll_id: int, db: Session = Depends(get_db)):
+    poll = db.query(Poll).filter(Poll.id == poll_id).first()
+    if not poll:
+        raise HTTPException(status_code=404, detail="Poll not found")
+    options = db.query(Option).filter(Option.poll_id == poll_id).all()
+    return {"id": poll.id, "question": poll.question, "options": [{"id": opt.id, "text": opt.text} for opt in options]}
 
 app.add_middleware(
     CORSMiddleware,
